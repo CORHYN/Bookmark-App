@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { hasEnvVars } from "../utils";
 
 export async function updateSession(request: NextRequest) {
+    console.log('supa hot')
   let supabaseResponse = NextResponse.next({
     request,
   });
