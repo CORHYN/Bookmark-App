@@ -27,7 +27,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 			const { data, error } = await supabase.auth.signInWithOAuth({
 				provider: 'google',
 				options: {
-					redirectTo: `https://${process.env.VERCEL_URL}/auth/callback`,
+					redirectTo: 'https://bookmark-app-sable-omega.vercel.app/auth/callback',
 				},
 			});
 			if (error) throw error;
