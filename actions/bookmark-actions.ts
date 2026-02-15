@@ -1,6 +1,7 @@
 'use server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
+import { revalidatePath } from 'next/cache';
 
 const newBookmarkSchema = z.object({
 	name: z.string({
@@ -23,7 +24,6 @@ export async function addBookMarkAction(prevState: any, formData: FormData) {
 
     const supabase = await createClient();
 	const result = await supabase.from('Bookmark').insert({name: name, url: url}).select();
-    console.log(result);
 
 	if (!result) {
 		return {
@@ -41,6 +41,8 @@ export async function addBookMarkAction(prevState: any, formData: FormData) {
 			errorMessage: 'Failed to Subscribe.',
 		};
 	}
+
+    revalidatePath('/');
 
 	return {
 		...prevState,

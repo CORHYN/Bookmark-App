@@ -30,7 +30,7 @@ export default function AddBookmark() {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button className="w-full flex gap-4" variant={'default'}>
+				<Button className="flex gap-4" variant={'default'}>
 					<Plus />
 					New Bookmark
 				</Button>
