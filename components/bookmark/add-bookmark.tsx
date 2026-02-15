@@ -3,16 +3,32 @@
 import { CircleAlert, Plus } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { useActionState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { addBookMarkAction } from '@/actions/bookmark-actions';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
+import { stat } from 'fs';
+import { toast } from 'sonner';
 
 export default function AddBookmark() {
     const [state, formAction] = useActionState(addBookMarkAction, { zodErrors: null, successMessage: null, errorMessage: null });
+    const [open, setOpen] = useState<boolean>(false);
 
+    useEffect(()=>{
+
+        if (state?.successMessage) {
+			toast.success(state?.successMessage);
+            setOpen(false);
+		}
+
+        if(state?.errorMessage){
+            toast.error(state?.errorMessage);
+        }
+
+    }, [state])
+    
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button className="w-full flex gap-4" variant={'default'}>
 					<Plus />
