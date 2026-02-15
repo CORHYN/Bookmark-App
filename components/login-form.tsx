@@ -31,10 +31,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 				},
 			});
 			if (error) throw error;
-            if(data.url){
-                redirect(data.url)
-            }
-			router.push('/protected');
+
 		} catch (error: unknown) {
 			setError(error instanceof Error ? error.message : 'An error occurred');
 		} finally {
