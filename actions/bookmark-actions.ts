@@ -23,6 +23,7 @@ export async function addBookMarkAction(prevState: any, formData: FormData) {
 
     const supabase = await createClient();
 	const result = await supabase.from('Bookmark').insert({name: name, url: url}).select();
+    console.log(result);
 
 	if (!result) {
 		return {
