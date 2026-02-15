@@ -2,22 +2,7 @@ import { AuthButton } from '@/components/auth-button';
 import AddBookmark from '@/components/bookmark/add-bookmark';
 import BookmarkList from '@/components/bookmark/bookmark-list';
 import { ThemeSwitcher } from '@/components/theme-switcher';
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-
-async function Bookmarks() {
-	const supabase = await createClient();
-	const { data, error } = await supabase.auth.getClaims();
-
-	if (error || !data?.claims) {
-		redirect('/auth/login');
-	}
-
-	const bookmarks = supabase.from('Bookmark').select();
-
-	return <></>;
-}
 
 export default function Home() {
 	return (

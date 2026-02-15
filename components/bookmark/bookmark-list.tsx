@@ -1,19 +1,24 @@
+import { removeBookMarkAction } from '@/actions/bookmark-actions';
 import { createClient } from '@/lib/supabase/server';
 import { Card, CardContent } from '../ui/card';
-import { Button } from '../ui/button';
-import { Trash } from 'lucide-react';
-import { removeBookMarkAction } from '@/actions/bookmark-actions';
-import DeleteBookmarkButton from './delete-bookmark-button';
 import { BookmarkChannelWrapper } from './bookmark-channel-wrapper';
+import DeleteBookmarkButton from './delete-bookmark-button';
+import { redirect } from 'next/navigation';
 
 export default async function BookmarkList() {
 	const supabase = await createClient();
-	const { data } = await supabase.from('Bookmark').select();
+    const { data, error } = await supabase.auth.getClaims();
+    
+        if (error || !data?.claims) {
+            redirect('/auth/login');
+        }
+    
+	const { data: bookmarks } = await supabase.from('Bookmark').select();
 
 	return (
 		<BookmarkChannelWrapper>
 			<div className="flex flex-col gap-5">
-				{data?.map((bookmark, index) => {
+				{bookmarks?.map((bookmark, index) => {
 					return (
 						<Card key={index}>
 							<CardContent className="pt-6 flex justify-between">
