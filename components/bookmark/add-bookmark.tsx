@@ -15,16 +15,19 @@ export default function AddBookmark() {
     const [open, setOpen] = useState<boolean>(false);
 
     useEffect(()=>{
+        const channel = new BroadcastChannel('bookmarks');
 
         if (state?.successMessage) {
 			toast.success(state?.successMessage);
             setOpen(false);
+            channel.postMessage('bookmark-updated');
 		}
 
         if(state?.errorMessage){
             toast.error(state?.errorMessage);
         }
 
+        return () => channel.close();
     }, [state])
     
 	return (
