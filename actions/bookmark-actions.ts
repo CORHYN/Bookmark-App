@@ -13,17 +13,16 @@ const newBookmarkSchema = z.object({
 });
 
 export async function addBookMarkAction(prevState: any, formData: FormData) {
-    console.log("FIRED")
 	const name = formData.get('name');
-    const url = formData.get('url');
+	const url = formData.get('url');
 	const { success, error, data } = newBookmarkSchema.safeParse({ name, url });
 
 	if (!success) {
 		return { ...prevState, zodErrors: error.flatten().fieldErrors, success: false };
 	}
 
-    const supabase = await createClient();
-	const result = await supabase.from('Bookmark').insert({name: name, url: url}).select();
+	const supabase = await createClient();
+	const result = await supabase.from('Bookmark').insert({ name: name, url: url }).select();
 
 	if (!result) {
 		return {
@@ -36,13 +35,12 @@ export async function addBookMarkAction(prevState: any, formData: FormData) {
 	if (result.error) {
 		return {
 			...prevState,
-			strapiErrors: result.error,
 			zodErrors: null,
 			errorMessage: 'Failed to Subscribe.',
 		};
 	}
 
-    revalidatePath('/');
+	revalidatePath('/');
 
 	return {
 		...prevState,
@@ -50,6 +48,11 @@ export async function addBookMarkAction(prevState: any, formData: FormData) {
 		errorMessage: null,
 		successMessage: 'Successfully Subscribed!',
 	};
+}
 
-    
+export async function removeBookMarkAction(bookMarkId: number) {
+	const supabase = await createClient();
+	const result = await supabase.from('Bookmark').delete().eq('id', bookMarkId);
+
+	revalidatePath('/');
 }
