@@ -1,7 +1,6 @@
 import { AuthButton } from '@/components/auth-button';
 import AddBookmark from '@/components/bookmark/add-bookmark';
 import BookmarkList from '@/components/bookmark/bookmark-list';
-import { EnvVarWarning } from '@/components/env-var-warning';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
